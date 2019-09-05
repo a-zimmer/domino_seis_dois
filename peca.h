@@ -8,4 +8,8 @@ typedef struct _pecaDomino {
 	struct _pecaDomino *left;
 } TppecaDomino;
 
+TppecaDomino* init ();
+TppecaDomino* create ();
+TppecaDomino* insertIni (TppecaDomino* pieces, int right, int left);
+
 #endif
