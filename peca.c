@@ -62,10 +62,10 @@ TppecaDomino* removeFromAvailables (TppecaDomino *pieces, TppecaDomino *last, Tp
 		return NULL;
 	}
 
-	TppecaDomino *ret;
 
 	// Exclusão no início
 	if (all->left == NULL) {
+		TppecaDomino *ret;
 		ret = all->right;
 		ret->left = NULL;
 		free(all);
