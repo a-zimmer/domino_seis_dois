@@ -17,7 +17,7 @@ int main ()
 
 	printf("\n\n----------------------------------------------------\n\n");
 
-	TppecaDomino* playerOnePieces = getPlayerPieces(pieces, 7);
+	TppecaDomino* playerOnePieces = getPlayerPieces(pieces, 1);
 	all = playerOnePieces;
 
 	for (i = 0; i < 7; i++) {
@@ -27,6 +27,7 @@ int main ()
 
 	printf("\n\n----------------------------------------------------\n\n");
 
+	/*
 	TppecaDomino* playerTwoPieces = getPlayerPieces(pieces, 7);
 	all = playerTwoPieces;
 
@@ -34,5 +35,6 @@ int main ()
 		printf("i: %d, Right: %d, Left: %d\n", i, all->numberRight, all->numberLeft);
 		all = all->right;
 	}
+	*/
 	return 0;
 }

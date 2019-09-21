@@ -14,8 +14,9 @@ int randomInt (int length);
 
 TppecaDomino* init ();
 TppecaDomino* createPieces ();
-TppecaDomino* getPlayerPieces (TppecaDomino* pieces, int totPieces);
 TppecaDomino* insertIni (TppecaDomino* pieces, int right, int left);
-TppecaDomino* removeFromAvailables (TppecaDomino *pieces, TppecaDomino *last, TppecaDomino *availables);
+TppecaDomino* getPlayerPieces (TppecaDomino* pieces, int totPieces);
+TppecaDomino* setPlayerPiece (TppecaDomino *sorted, TppecaDomino *availables);
+TppecaDomino* removeFromAvailables (TppecaDomino *pieces, TppecaDomino *availables);
 
 #endif

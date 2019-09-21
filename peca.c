@@ -22,24 +22,35 @@ TppecaDomino* getPlayerPieces (TppecaDomino* pieces, int totPieces)
 {
 	TppecaDomino *sorted = (TppecaDomino *) malloc(sizeof(TppecaDomino));
 	TppecaDomino *availables = pieces;
-	TppecaDomino *last;
 	int i, count = 0;
 
 	while (count < totPieces) {
 		int pieceNumber = randomInt(TOTAL_PIECES - count);
 
+		printf("pieceNumber: %d\n", pieceNumber);
+		printf("Before for\n");
 		for (i = 0; i <= pieceNumber; i++) {
-		printf("i: %d, pieceNumber: %d, i == pieceNumber: %d\n", i, pieceNumber, i == pieceNumber);
 			if (i == pieceNumber) {
-				sorted = availables;
-				printf("sorted->numberRight: %d, sorted->numberLeft: %d\n", sorted->numberRight, sorted->numberLeft);
-				availables = removeFromAvailables (pieces, last, availables);
+
+				printf("Before removeFromAvailables\n");
+				availables = removeFromAvailables (pieces, availables);
+				printf("After removeFromAvailables\n");
+				//printf("Before setPlayerPiece\n");
+				//sorted = setPlayerPiece (sorted, availables);
 			} else {
-				last = availables;
-				availables = availables->right;
+				printf("Before numberRight: %d, numberLeft: %d\n", availables->numberRight, availables->numberLeft);
+				availables = availables->right == NULL ? pieces : availables->right;
+				printf("After numberRight: %d, numberLeft: %d\n\n\n\n", availables->numberRight, availables->numberLeft);
 			}
 
 		}
+		printf("After for\n");
+
+		printf("Before reset availables\n");
+		printf("\n\n\n\nBefore numberRight: %d, numberLeft: %d\n", availables->numberRight, availables->numberLeft);
+		availables = pieces;
+		printf("After numberRight: %d, numberLeft: %d\n\n\n\n", availables->numberRight, availables->numberLeft);
+		printf("After reset availables\n");
 
 		count++;
 	}
@@ -49,15 +60,27 @@ TppecaDomino* getPlayerPieces (TppecaDomino* pieces, int totPieces)
 	return sorted;
 }
 
-TppecaDomino* removeFromAvailables (TppecaDomino *pieces, TppecaDomino *last, TppecaDomino *availables)
+TppecaDomino* setPlayerPiece (TppecaDomino *sorted, TppecaDomino *availables)
 {
-	TppecaDomino *all = pieces;
+	TppecaDomino *all = sorted;
+	all->left->right = availables;
+	all->left->left = NULL;
+
+	availables->left = all;
+	return sorted;
+}
+
+TppecaDomino* removeFromAvailables (TppecaDomino *pieces, TppecaDomino *availables)
+{
+	TppecaDomino *all = availables;
 
 	if (all == NULL) {
+		printf("vazio\n");
 		return pieces;
 	}
 
 	if (all->right == NULL && all->left == NULL) {
+		printf("primeiro\n");
 		free(all);
 		return NULL;
 	}
@@ -65,23 +88,26 @@ TppecaDomino* removeFromAvailables (TppecaDomino *pieces, TppecaDomino *last, Tp
 
 	// Exclusão no início
 	if (all->left == NULL) {
-		TppecaDomino *ret;
-		ret = all->right;
-		ret->left = NULL;
+		printf("Exclusão no início\n");
+		all->right->left = NULL;
 		free(all);
-		return ret;
+		return pieces;
 	}
 
 	// Exclusão no final
 	if (all->right == NULL) {
+		printf("Exclusão no final\n");
 		all->left->right = NULL;
 		free(all);
 		return pieces;
 	}
 
+	printf("Exclusão no meio\n");
+
 	// Exclusão no meio
 	all->left->right = all->right;
 	all->right->left = all->left;
+
 	free(all);
 
 	return pieces;
@@ -89,11 +115,15 @@ TppecaDomino* removeFromAvailables (TppecaDomino *pieces, TppecaDomino *last, Tp
 
 TppecaDomino* insertIni (TppecaDomino* pieces, int right, int left)
 {
-	TppecaDomino *new = (TppecaDomino *) malloc(sizeof(TppecaDomino));
+	TppecaDomino *new = malloc(sizeof(TppecaDomino));
 	new->numberRight = right;
 	new->numberLeft = left;
 	new->right = pieces;
 	new->left = NULL;
+
+	if (pieces) {
+		pieces->left = new;
+	}
 
 	return new;
 }
